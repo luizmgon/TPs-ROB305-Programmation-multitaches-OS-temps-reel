@@ -65,11 +65,13 @@ TPs-ROB305-Programmation-multitaches-OS-temps-reel
 │   ├── td3d.cpp
 │   └── td3d.exe
 └── TD4
-    ├── Monitor.cpp
-    ├── Monitor.h
-    ├── Semaphore.cpp
-    ├── Semaphore.h
-    └── td4b.cpp
+    ├── Utils
+    │   ├── Monitor.cpp
+    │   ├── Monitor.h
+    │   ├── Semaphore.cpp
+    │   └── Semaphore.h
+    ├── td4b.cpp
+    └── td4b.exe
 
      
 ```
@@ -171,7 +173,6 @@ arm-linux-g++ -Wall -Wextra td3a1.cpp  -o  td3a1.exe
 arm-linux-g++ -Wall -Wextra td3a2-1t.cpp  -o  td3a2-1t.exe
 arm-linux-g++ -Wall -Wextra td3a2-1t.cpp  -o  td3a2-1t.exe
 arm-linux-g++ -Wall -Wextra td3a3.cpp  -o  td3a3.exe
-
 ```
 
 ### 🔹 B - Classe Mutex
@@ -204,6 +205,8 @@ arm-linux-g++ -Wall -Wextra ../TD1/Utils/*.cpp ./Utils/*.cpp td3d.cpp  -o  td3d.
 
 ### 🔹 E - Inversion de priorité
 
+Je n’ai pas réussi à le faire fonctionner. J’ai ajouté des timestamps pour faire du débogage et comprendre l’ordre des exécutions, mais il ne semble pas respecter les priorités (B a une priorité inférieure à A, mais commence avant que A ne soit bloqué).
+
 #### 🛠️ Compilation (depuis `./TD1`)
 
 ```bash
@@ -215,24 +218,19 @@ arm-linux-g++ -Wall -Wextra ../TD1/Utils/*.cpp ../TD2/Utils/*.cpp ./Utils/*.cpp 
 
 ------------------------------------------------------------
 
-⚙️ TD4
+## 📋 TD4 – Encapsulation d’une condition Posix
 
-📌 Réponses
+### 🔹 A - Création de la classe Monitor
 
-_(espace réservé pour les réponses du TD4)_
+#### 🛠️ Compilation - Test des erreurs et warnings (depuis `./TD4/Utils`)
+```bash
+arm-linux-g++ -Wall -Wextra ../../TD1/Utils/*.cpp  ../../TD3/Utils/*.cpp Monitor.cpp
+```
 
-🛠️ Compilation
+### 🔹 B - Création d’une classe Sémaphore
 
-cd TD4
-g++ -std=c++11 -pthread main.cpp Semaphore.cpp Monitor.cpp Mutex.cpp ../TD1/timespec.cpp -o td4
-./td4 <nb_consommateurs> <nb_producteurs> <jetons_par_producteur>
+#### 🛠️ Compilation (depuis `./TD4`)
 
-------------------------------------------------------------
-
-👋 Hello World
-
-🛠️ Compilation
-
-cd hello
-g++ hello.cpp -o hello -pthread
-./hello
+```bash
+arm-linux-g++ -Wall -arm-linux-g++ -Wall -Wextra ../TD1/Utils/*.cpp ../TD2/Utils/*.cpp ../TD3/Utils/*.cpp ./Utils/*.cpp td4b.cpp  -o  td4b.exeWextra ./Utils/*.cpp td1b.cpp  -o  td1b.exe
+```

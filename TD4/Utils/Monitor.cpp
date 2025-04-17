@@ -1,7 +1,7 @@
 #include "Monitor.h"
-#include "../TD1/timespec.h"
+#include "../../TD1/Utils/timespec.h"
 
-Monitor::Monitor(Mutex& mutex) : m_mutex(mutex)
+Monitor::Monitor(Mutex &mutex) : m_mutex(mutex)
 {
     pthread_cond_init(&posixCondId, nullptr);
 }
@@ -21,10 +21,9 @@ void Monitor::notifyAll()
     pthread_cond_broadcast(&posixCondId);
 }
 
-Monitor::Lock::Lock(Monitor& monitor) : Mutex::Lock(monitor.m_mutex), m_monitor(monitor){}
+Monitor::Lock::Lock(Monitor &monitor) : Mutex::Lock(monitor.m_mutex), m_monitor(monitor) {}
 
-Monitor::Lock::Lock(Monitor& monitor, double timeout_ms) : Mutex::Lock(monitor.m_mutex, timeout_ms), m_monitor(monitor){}
-
+Monitor::Lock::Lock(Monitor &monitor, double timeout_ms) : Mutex::Lock(monitor.m_mutex, timeout_ms), m_monitor(monitor) {}
 
 void Monitor::Lock::wait()
 {
