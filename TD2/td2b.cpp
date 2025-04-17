@@ -1,11 +1,13 @@
-#include "CountDown.h"
+#include "./Utils/CountDown.h"
 
-int main(){
+int main()
+{
 
     CountDown cd(10);
     cd.start_ms(1000, true);
 
-    while(cd.getCounter() > 0);
-    
+    while (cd.getCounter() > 0)
+        ;
+
     return 0;
 }

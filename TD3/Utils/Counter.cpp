@@ -1,10 +1,10 @@
 #include "Counter.h"
 
-Counter::Counter(bool protect) : m_value(0), p_mutex(protect? std::make_unique<Mutex>() : nullptr){}
+Counter::Counter(bool protect) : m_value(0), p_mutex(protect ? std::make_unique<Mutex>(false) : nullptr) {}
 
 double Counter::increment()
 {
-    if(isProtected())
+    if (isProtected())
     {
         Mutex::Lock lock(*p_mutex);
         m_value++;

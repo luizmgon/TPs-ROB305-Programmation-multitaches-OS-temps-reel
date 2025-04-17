@@ -11,7 +11,7 @@ Thread::~Thread()
 }
 
 void Thread::start(int priority)
-{   
+{
     m_chrono.restart();
     sched_param sched;
 
@@ -19,10 +19,9 @@ void Thread::start(int priority)
     pthread_attr_setschedpolicy(&posixThreadAttrId, policy);
 
     sched.sched_priority = priority;
-    
+
     pthread_attr_setschedparam(&posixThreadAttrId, &sched);
     pthread_attr_setinheritsched(&posixThreadAttrId, PTHREAD_EXPLICIT_SCHED);
-
 
     pthread_create(&posixThreadId, &posixThreadAttrId, call_run, this);
 }
@@ -39,12 +38,12 @@ bool Thread::isStarted() const
 
 long Thread::duration_ms() const
 {
-    return m_chrono.lap_ms();   
+    return m_chrono.lap_ms();
 }
 
-void* Thread::call_run(void* v_thread)
+void *Thread::call_run(void *v_thread)
 {
-    Thread* thread = (Thread*)v_thread;
+    Thread *thread = (Thread *)v_thread;
     thread->run();
     thread->m_chrono.stop();
 
@@ -55,7 +54,7 @@ void Thread::setMainSched(int policy)
 {
     struct sched_param schedParam;
 
-    schedParam.sched_priority = policy == SCHED_OTHER? 0 : sched_get_priority_max(policy);
+    schedParam.sched_priority = policy == SCHED_OTHER ? 0 : sched_get_priority_max(policy);
 
     pthread_setschedparam(pthread_self(), policy, &schedParam);
 }

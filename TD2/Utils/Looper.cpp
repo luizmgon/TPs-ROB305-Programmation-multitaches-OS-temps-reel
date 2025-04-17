@@ -5,8 +5,8 @@
 double Looper::runLoop(double nLoops = DBL_MAX)
 {
     iLoop = 0.0;
-    
-    while(!doStop && iLoop < nLoops)
+
+    while (!doStop && iLoop < nLoops)
     {
         iLoop += 1.0;
     }

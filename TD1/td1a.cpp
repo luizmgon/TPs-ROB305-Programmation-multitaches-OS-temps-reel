@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Chrono.h"
+#include "./Utils/Chrono.h"
 
-int main() {
+int main()
+{
 
     std::cout << "\n--- Testing timespec_now() and timespec_wait() ---" << std::endl;
 
@@ -14,7 +15,7 @@ int main() {
     std::cout << "Waiting 3s..." << std::endl;
     timespec_wait(delay);
     time = timespec_now();
-    
+
     std::cout << "Time after 3s: " << time << std::endl;
 
     //-----------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ int main() {
     double time_in_ms = -12345678;
     timespec truth;
     truth.tv_sec = -12346;
-    truth.tv_nsec = 1000000000-678000000;
+    truth.tv_nsec = 1000000000 - 678000000;
 
     std::cout << "True time: " << truth << std::endl;
 
@@ -33,7 +34,7 @@ int main() {
 
     timespec time_neg = timespec_negate(time_from_ms);
     std::cout << "Time negated: " << time_neg << std::endl;
-    
+
     double time_back_in_ms = timespec_to_ms(time_neg);
     std::cout << "Time back to ms: " << time_back_in_ms << " ms" << std::endl;
 
@@ -46,7 +47,7 @@ int main() {
     //-----------------------------------------------------------------------------------
 
     std::cout << "\n--- Testing timespec_add(), timespec_subtract() and its operators ---" << std::endl;
-    
+
     timespec time1 = timespec_from_ms(987654321);
     timespec time2 = timespec_from_ms(-876543210);
 
@@ -66,7 +67,7 @@ int main() {
     std::cout << "Time diff (-): " << time_diff << std::endl;
     time1 -= time2;
     std::cout << "Time diff (-=): " << time1 << std::endl;
-    
+
     time1 = timespec_from_ms(2700);
     time2 = timespec_from_ms(3500);
 

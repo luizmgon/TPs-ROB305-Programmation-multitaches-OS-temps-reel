@@ -1,18 +1,21 @@
 #include <iostream>
-#include "Chrono.h"
+#include "./Utils/Chrono.h"
 
-int main(){
+int main()
+{
     std::cout << "\n --- Testing Chrono ---" << std::endl;
 
     Chrono chrono;
     std::cout << "Chrono is active: " << chrono.isActive() << std::endl;
-    std::cout << "Waiting 1s...\n" << std::endl;
+    std::cout << "Waiting 1s...\n"
+              << std::endl;
     timespec_wait(timespec_from_ms(1000));
 
     timespec lap = chrono.lap();
     std::cout << "Lap: " << lap << std::endl;
 
-    std::cout << "\nWaiting 1s...\n" << std::endl;
+    std::cout << "\nWaiting 1s...\n"
+              << std::endl;
     timespec_wait(timespec_from_ms(1000));
 
     double lap_ms = chrono.lap_ms();
@@ -28,7 +31,8 @@ int main(){
     std::cout << "Chrono is active: " << chrono.isActive() << std::endl;
     std::cout << "Lap after stop: " << lap << std::endl;
 
-    std::cout << "\nWaiting 1s...\n" << std::endl;
+    std::cout << "\nWaiting 1s...\n"
+              << std::endl;
     timespec_wait(timespec_from_ms(1000));
 
     lap = chrono.lap();
@@ -42,5 +46,4 @@ int main(){
     std::cout << "Shortest possible lap: " << lap << " = " << lap_ms << " ms" << std::endl;
 
     return 0;
-
 }

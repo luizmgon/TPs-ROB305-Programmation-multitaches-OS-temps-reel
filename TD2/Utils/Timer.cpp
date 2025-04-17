@@ -1,5 +1,5 @@
 #include "Timer.h"
-#include "timespec.h"
+#include "../../TD1/Utils/timespec.h"
 
 Timer::Timer()
 {
@@ -12,10 +12,9 @@ Timer::Timer()
     struct sigevent sev;
     sev.sigev_notify = SIGEV_SIGNAL;
     sev.sigev_signo = SIGRTMIN;
-    sev.sigev_value.sival_ptr = (void*) this;
+    sev.sigev_value.sival_ptr = (void *)this;
 
     timer_create(CLOCK_REALTIME, &sev, &tid);
-
 }
 
 Timer::~Timer()
@@ -23,23 +22,22 @@ Timer::~Timer()
     timer_delete(tid);
 }
 
-void Timer::call_callback(int sig, siginfo_t* si, void*)
+void Timer::call_callback(int sig, siginfo_t *si, void *)
 {
-    auto p_timer = (Timer*) si->si_value.sival_ptr;
+    auto p_timer = (Timer *)si->si_value.sival_ptr;
     p_timer->callback();
 }
 
-void Timer::start( timespec duration, bool isPeriodic)
+void Timer::start(timespec duration, bool isPeriodic)
 {
-    itimerspec its {{0,0},{0,0}};
+    itimerspec its{{0, 0}, {0, 0}};
     its.it_value = duration;
-    if(isPeriodic)
+    if (isPeriodic)
     {
         its.it_interval = duration;
     }
 
     timer_settime(tid, 0, &its, nullptr);
-
 }
 
 void Timer::start_ms(double duration_ms, bool isPeriodic)
@@ -50,7 +48,6 @@ void Timer::start_ms(double duration_ms, bool isPeriodic)
 
 void Timer::stop()
 {
-    itimerspec its {{0,0},{0,0}};
+    itimerspec its{{0, 0}, {0, 0}};
     timer_settime(tid, 0, &its, nullptr);
 }
-

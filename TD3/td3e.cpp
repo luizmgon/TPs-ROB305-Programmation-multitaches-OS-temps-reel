@@ -1,10 +1,11 @@
-#include "../Thread.h"
-#include "../../TD2/CpuLoop.h"
-#include "../Mutex.h"
+#include "./Utils/Thread.h"
+#include "../TD2/Utils/CpuLoop.h"
+#include "./Utils/Mutex.h"
 
 double startTime = 0;
 
-void log(const std::string& msg, const std::string& threadName) {
+void log(const std::string &msg, const std::string &threadName)
+{
     double now = timespec_to_ms(timespec_now()) - startTime;
     std::cout << "[" << now << " ms] " << threadName << ": " << msg << std::endl;
 }
@@ -13,20 +14,22 @@ class Thread_A : public Thread
 {
 private:
     CpuLoop cpuLoop;
-    Mutex& ressource;
+    Mutex &ressource;
 
 public:
-    Thread_A(Calibrator& calibrator, Mutex& ressource) : Thread(0), cpuLoop(calibrator), ressource(ressource) {}
+    Thread_A(Calibrator &calibrator, Mutex &ressource) : Thread(0), cpuLoop(calibrator), ressource(ressource) {}
     void run() override
-    {int policy;
+    {
+        int policy;
         sched_param param;
         pthread_getschedparam(pthread_self(), &policy, &param);
         log("Running with policy = " + std::string(policy == SCHED_FIFO ? "SCHED_FIFO" : "SCHED_OTHER") +
-            ", priority = " + std::to_string(param.sched_priority), "Thread A");
-            double t0 = timespec_to_ms(timespec_now()) - startTime;
-            cpuLoop.runTime(1000);
-            double t1 = timespec_to_ms(timespec_now()) - startTime;
-            log("runTime(1000) durou " + std::to_string(t1 - t0) + "ms", "Thread A");
+                ", priority = " + std::to_string(param.sched_priority),
+            "Thread A");
+        double t0 = timespec_to_ms(timespec_now()) - startTime;
+        cpuLoop.runTime(1000);
+        double t1 = timespec_to_ms(timespec_now()) - startTime;
+        log("runTime(1000) durou " + std::to_string(t1 - t0) + "ms", "Thread A");
         log("asked the mutex", "Thread A");
         {
             Mutex::Lock lock(ressource);
@@ -45,13 +48,15 @@ private:
     CpuLoop cpuLoop;
 
 public:
-    Thread_B(Calibrator& calibrator) : Thread(1), cpuLoop(calibrator) {}
+    Thread_B(Calibrator &calibrator) : Thread(1), cpuLoop(calibrator) {}
     void run() override
-    {int policy;
+    {
+        int policy;
         sched_param param;
         pthread_getschedparam(pthread_self(), &policy, &param);
         log("Running with policy = " + std::string(policy == SCHED_FIFO ? "SCHED_FIFO" : "SCHED_OTHER") +
-            ", priority = " + std::to_string(param.sched_priority), "Thread B");
+                ", priority = " + std::to_string(param.sched_priority),
+            "Thread B");
         cpuLoop.runTime(1000);
         log("finished", "Thread B");
     }
@@ -61,16 +66,18 @@ class Thread_C : public Thread
 {
 private:
     CpuLoop cpuLoop;
-    Mutex& ressource;
+    Mutex &ressource;
 
 public:
-    Thread_C(Calibrator& calibrator, Mutex& ressource) : Thread(2), cpuLoop(calibrator), ressource(ressource) {}
+    Thread_C(Calibrator &calibrator, Mutex &ressource) : Thread(2), cpuLoop(calibrator), ressource(ressource) {}
     void run() override
-    {int policy;
+    {
+        int policy;
         sched_param param;
         pthread_getschedparam(pthread_self(), &policy, &param);
         log("Running with policy = " + std::string(policy == SCHED_FIFO ? "SCHED_FIFO" : "SCHED_OTHER") +
-            ", priority = " + std::to_string(param.sched_priority), "Thread C");
+                ", priority = " + std::to_string(param.sched_priority),
+            "Thread C");
         cpuLoop.runTime(2000);
         log("asked the mutex", "Thread C");
         {
@@ -84,7 +91,8 @@ public:
     }
 };
 
-int main() {
+int main()
+{
     Thread::setMainSched(SCHED_FIFO);
     sched_param param;
     pthread_getschedparam(pthread_self(), &param.sched_priority, &param);
@@ -108,9 +116,8 @@ int main() {
     log("Calling Thread A", "main");
     threadA.start(Thread::getMaxPrio(SCHED_FIFO) - 1);
 
-
     log("Calling Thread B", "main");
-    threadB.start(1);
+    threadB.start(Thread::getMaxPrio(SCHED_FIFO) - 2);
 
     threadC.join();
     threadA.join();
