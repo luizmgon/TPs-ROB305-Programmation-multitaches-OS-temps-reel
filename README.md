@@ -204,7 +204,7 @@ arm-linux-g++ -Wall -Wextra ../TD1/Utils/*.cpp ./Utils/*.cpp td3d.cpp  -o  td3d.
 
 Je n’ai pas réussi à le faire fonctionner. J’ai ajouté des timestamps pour faire du débogage et comprendre l’ordre des exécutions, mais il ne semble pas respecter les priorités (B a une priorité inférieure à A, mais commence avant que A ne soit bloqué).
 
-#### 🛠️ Compilation (depuis `./TD1`)
+#### 🛠️ Compilation (depuis `./TD3`)
 
 ```bash
 arm-linux-g++ -Wall -Wextra ../TD1/Utils/*.cpp ../TD2/Utils/*.cpp ./Utils/*.cpp td3e.cpp  -o  td3e.exe
